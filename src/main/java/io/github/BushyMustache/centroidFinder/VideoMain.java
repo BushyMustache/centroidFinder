@@ -1,6 +1,7 @@
 package io.github.BushyMustache.centroidFinder;
 
 import java.util.List;
+import java.nio.file.Path;
 
 public class VideoMain{
     public static void main(String[] args){
@@ -23,6 +24,13 @@ public class VideoMain{
         VideoProcessor processor = new VideoProcessor(groupFinder);
         try {
             List<VideoProcessor.FrameAnalysis> results = processor.processVideo("sampleInput/moving-square-triangle.mp4");
+
+            CsvWriter csvWriter = new CsvWriter();
+            
+            csvWriter.write(
+                Path.of("sampleOutput", "output.csv"),
+                results
+            );
 
             for (VideoProcessor.FrameAnalysis result : results) {
                 System.out.println(result);
