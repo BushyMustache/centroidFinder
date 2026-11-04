@@ -1,4 +1,3 @@
-
 package io.github.BushyMustache.centroidFinder;
 
 import java.util.ArrayList;

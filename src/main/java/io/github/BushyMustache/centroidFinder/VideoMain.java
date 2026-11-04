@@ -2,7 +2,7 @@ package io.github.BushyMustache.centroidFinder;
 
 import java.util.List;
 
-public class VideoProcessingApp{
+public class VideoMain{
     public static void main(String[] args){
         ColorDistanceFinder distanceFinder =
             new EuclideanColorDistance();
