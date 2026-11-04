@@ -23,6 +23,10 @@ public class VideoProcessor{
 
             while ((nextFrame = reader.readNextFrame()).isPresent()) {
                 VideoFrame videoFrame = nextFrame.get();
+
+                x = -1;
+                y = -1;
+
                 List<Group> groups = groupFinder.findConnectedGroups(videoFrame.frame());
 
                 if (!groups.isEmpty()) {
