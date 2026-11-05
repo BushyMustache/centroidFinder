@@ -26,3 +26,9 @@ Everything after videoprocessor.jar is command line arguments that will be taken
 - Make a class for coordinate frame processing
 - Make a class for writing the largest centroid and (x, y) coordinates to a CSV file
 - Make tests for each class
+
+## Salamander Video Test
+- We tested the salamander video by getting
+- Color - through an online color picker and selecting the salamander
+- Threshold - we ran the program multiple times at different thresholds and found ~10-20 works well
+- One issue was that part of the table has a similar color to the salamandar, causing the program to track that part of the table when the salamander was mostly off screen

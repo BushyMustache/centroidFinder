@@ -11,8 +11,8 @@ public class VideoMain{
         ImageBinarizer binarizer =
             new DistanceImageBinarizer(
                 distanceFinder,
-                0xEB8F16,
-                10
+                0x55000a,
+                20
             );
 
         ImageGroupFinder groupFinder =
@@ -23,7 +23,7 @@ public class VideoMain{
 
         VideoProcessor processor = new VideoProcessor(groupFinder);
         try {
-            List<VideoProcessor.FrameAnalysis> results = processor.processVideo("sampleInput/moving-square-triangle.mp4");
+            List<VideoProcessor.FrameAnalysis> results = processor.processVideo("sampleInput/ensantina.mp4");
 
             CsvWriter csvWriter = new CsvWriter();
             

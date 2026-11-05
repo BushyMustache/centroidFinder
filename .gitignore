@@ -23,7 +23,9 @@
 hs_err_pid*
 replay_pid*
 
-src/Temp.java
-
 # Maven
 target
+
+# Other
+src/Temp.java
+sampleInput/ensantina.mp4
