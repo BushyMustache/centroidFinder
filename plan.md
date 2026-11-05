@@ -32,3 +32,4 @@ Everything after videoprocessor.jar is command line arguments that will be taken
 - Color - through an online color picker and selecting the salamander
 - Threshold - we ran the program multiple times at different thresholds and found ~10-20 works well
 - One issue was that part of the table has a similar color to the salamandar, causing the program to track that part of the table when the salamander was mostly off screen
+- To test if the tracker was working, we manually got the length and width of random frames and compared it to the csv output
