@@ -28,4 +28,7 @@ target
 
 # Other
 src/Temp.java
-sampleInput/ensantina.mp4
+ensantina.mp4
+
+# npm
+node_modules/
