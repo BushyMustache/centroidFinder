@@ -32,3 +32,6 @@ ensantina.mp4
 
 # npm
 node_modules/
+
+# env
+.env
