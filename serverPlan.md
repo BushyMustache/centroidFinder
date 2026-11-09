@@ -11,10 +11,9 @@
 - How do we store outputs and videos?
 
 # Server Plan
--
--
--
--
--
--
--
+We will divide the server into five responsibilities
+- API routing - Receives and responds to HTTP requests
+- Video management - Finds available videos and generates thumbnails
+- Job management - Creates job IDs and tracks processing status
+- Java process management - Launches and monitors your Java JAR
+- File management - Stores videos, CSV results, and job information
