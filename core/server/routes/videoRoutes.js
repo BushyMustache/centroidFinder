@@ -16,7 +16,7 @@ const VIDEO_DIR = path.resolve(__dirname, '../../processor/sampleInput');
 
 const OUTPUT_DIR = path.resolve(
     __dirname,
-    '../../processor/sampleOutput'
+    '../../processor/sampleOutput/jobs'
 );
 
 const JAVA_PATH = process.env.JAVA_PATH || 'java';
@@ -225,19 +225,13 @@ router.post('/process/:filename', (req, res) => {
 
         javaProcess.on('close', code => {
             if (code === 0) {
-                jobs.set(jobId, {
-                    ...jobs.get(jobId),
-                    status: 'completed',
-                    completedAt: new Date().toISOString()
-                });
-            } else {
-                console.error(`Job ${jobId} failed:`, errorOutput);
+                jobs.status = 'completed';
 
-                jobs.set(jobId, {
-                    ...jobs.get(jobId),
-                    status: 'failed',
-                    error: errorOutput || `Java process exited with code ${code}`
-                });
+                // Assumes Java creates a CSV named after the input video
+                jobs.result = `/results/${jobId}/${jobs.filename}.csv`;
+            } else {
+                jobs.status = 'failed';
+                jobs.error = `Error processing video: ${stderr}`;
             }
         });
 
@@ -249,6 +243,58 @@ router.post('/process/:filename', (req, res) => {
 
         return res.status(500).json({
             error: 'Error starting job'
+        });
+    }
+});
+
+// Get the status of a video processing job
+router.get('/process/:jobId/status', (req, res) => {
+    try {
+        const { jobId } = req.params;
+
+        // Look up the job
+        const job = jobs.get(jobId);
+
+        // Job ID doesn't exist
+        if (!job) {
+            return res.status(404).json({
+                error: 'Job ID not found'
+            });
+        }
+
+        // Job is still running
+        if (job.status === 'processing') {
+            return res.status(200).json({
+                status: 'processing'
+            });
+        }
+
+        // Job finished successfully
+        if (job.status === 'completed') {
+            return res.status(200).json({
+                status: 'done',
+                result: job.result
+            });
+        }
+
+        // Job failed
+        if (job.status === 'failed') {
+            return res.status(200).json({
+                status: 'error',
+                error: job.error
+            });
+        }
+
+        // Unexpected job status
+        return res.status(500).json({
+            error: 'Error fetching job status'
+        });
+
+    } catch (error) {
+        console.error('Error fetching job status:', error);
+
+        return res.status(500).json({
+            error: 'Error fetching job status'
         });
     }
 });
