@@ -1,6 +1,11 @@
 const express = require('express');
-const videoRoutes = require('./routes/videoRoutes');
 const path = require('path');
+
+require('dotenv').config({
+    path: path.resolve(__dirname, '../../.env')
+});
+
+const videoRoutes = require('./routes/videoRoutes');
 
 const app = express();
 const VIDEO_DIR = path.resolve(__dirname, '../processor/sampleInput');

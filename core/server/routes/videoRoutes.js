@@ -4,11 +4,8 @@ const path = require('path');
 const { spawn } = require('child_process');
 const crypto = require('crypto');
 
+const FFMPEG_PATH = process.env.FFMPEG_PATH;
 console.log('FFMPEG_PATH:', process.env.FFMPEG_PATH);
-
-require('dotenv').config({
-    path: path.resolve(__dirname, '../../../.env')
-});
 
 const router = express.Router();
 
@@ -26,8 +23,6 @@ const PROCESSOR_JAR = path.resolve(
 );
 
 const jobs = new Map();
-
-const FFMPEG_PATH = process.env.FFMPEG_PATH;
 
 router.get('/videos', (req, res) => {
     fs.readdir(VIDEO_DIR, (err, files) => {
@@ -216,23 +211,35 @@ router.post('/process/:filename', (req, res) => {
         javaProcess.on('error', err => {
             console.error(`Unable to start job ${jobId}:`, err);
 
-            jobs.set(jobId, {
-                ...jobs.get(jobId),
-                status: 'failed',
-                error: err.message
-            });
+            const job = jobs.get(jobId);
+
+            if (job) {
+                job.status = 'failed';
+                job.error = `Error starting job: ${err.message}`;
+                jobs.set(jobId, job);
+            }
         });
 
         javaProcess.on('close', code => {
-            if (code === 0) {
-                jobs.status = 'completed';
+            // Retrieve this specific job from the Map.
+            const job = jobs.get(jobId);
 
-                // Assumes Java creates a CSV named after the input video
-                jobs.result = `/results/${jobId}/${jobs.filename}.csv`;
+            if (!job) return;
+
+            if (code === 0) {
+                job.status = 'completed';
+
+                // Save the result path on this specific job.
+                job.result = `/results/${jobId}/${filename}.csv`;
             } else {
-                jobs.status = 'failed';
-                jobs.error = `Error processing video: ${stderr}`;
+                job.status = 'failed';
+                job.error = `Error processing video: ${errorOutput}`;
             }
+
+            // Save the updated job back into the Map.
+            jobs.set(jobId, job);
+
+            console.log('Job finished:', jobId, job.status);
         });
 
         // Return immediately; Java continues processing in the background.
@@ -254,6 +261,9 @@ router.get('/process/:jobId/status', (req, res) => {
 
         // Look up the job
         const job = jobs.get(jobId);
+
+        console.log('GET - Retrieved job:', job);
+        console.log('GET - Job status:', job?.status);
 
         // Job ID doesn't exist
         if (!job) {
