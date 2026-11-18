@@ -43,6 +43,13 @@ router.get('/videos', (req, res) => {
 
 router.get('/thumbnail/:filename', (req, res) => {
     const filename = req.params.filename;
+    const time = Number(req.query.time ?? 0);
+
+    if (!Number.isFinite(time) || time < 0) {
+        return res.status(400).json({
+            error: 'Invalid timestamp'
+        });
+    }
 
     // Validate filename
     if (
@@ -66,6 +73,7 @@ router.get('/thumbnail/:filename', (req, res) => {
     const ffmpeg = spawn(FFMPEG_PATH, [
         '-hide_banner',
         '-loglevel', 'error',
+        '-ss', String(time),
         '-i', videoPath,
         '-frames:v', '1',
         '-f', 'image2pipe',
