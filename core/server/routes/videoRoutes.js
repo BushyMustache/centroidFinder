@@ -227,10 +227,15 @@ router.post('/process/:filename', (req, res) => {
             if (!job) return;
 
             if (code === 0) {
-                job.status = 'completed';
+                const csvPath = path.join(jobOutputDir, 'output.csv');
 
-                // Save the result path on this specific job.
-                job.result = `/results/${jobId}/${filename}.csv`;
+                if (fs.existsSync(csvPath)) {
+                    job.status = 'completed';
+                    job.result = `/results/${jobId}/output.csv`;
+                } else {
+                    job.status = 'failed';
+                    job.error = 'Java finished, but output.csv was not found.';
+                }
             } else {
                 job.status = 'failed';
                 job.error = `Error processing video: ${errorOutput}`;
