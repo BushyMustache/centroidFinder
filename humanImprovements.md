@@ -10,3 +10,6 @@
 
 ## Frontend
 - Give more thourough testing for our endpoints/error handling -> Postman
+- General UI updates:
+  - Thumbnails
+  - CSS
