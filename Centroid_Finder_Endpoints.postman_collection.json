@@ -1,0 +1,283 @@
+{
+  "info": {
+    "_postman_id": "08a37c14-0a9b-4657-b3c9-98560c2d117a",
+    "name": "Centroid Finder Endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54271294",
+    "_collection_link": "https://go.postman.co/collection/54271294-08a37c14-0a9b-4657-b3c9-98560c2d117a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Videos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/videos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "videos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Thumbnail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/thumbnail/ensantina.mp4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "thumbnail",
+            "ensantina.mp4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Thumbnail No File",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/thumbnail/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "thumbnail",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process No File",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process w/o Parameters",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/moving-square-triangle.mp4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "moving-square-triangle.mp4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process w Bad Target Color",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/moving-square-triangle.mp4?targetColor=3894294&threshold=40",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "moving-square-triangle.mp4"
+          ],
+          "query": [
+            {
+              "key": "targetColor",
+              "value": "3894294"
+            },
+            {
+              "key": "threshold",
+              "value": "40"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process w Negative Threshold",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/moving-square-triangle.mp4?targetColor=eb8f16&threshold=-40",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "moving-square-triangle.mp4"
+          ],
+          "query": [
+            {
+              "key": "targetColor",
+              "value": "eb8f16"
+            },
+            {
+              "key": "threshold",
+              "value": "-40"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process w Bad Target Color and Negative Threshold",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/moving-square-triangle.mp4?targetColor=3894294&threshold=-40",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "moving-square-triangle.mp4"
+          ],
+          "query": [
+            {
+              "key": "targetColor",
+              "value": "3894294"
+            },
+            {
+              "key": "threshold",
+              "value": "-40"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process w Correct Parameters",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/moving-square-triangle.mp4?targetColor=eb8f16&threshold=40",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "moving-square-triangle.mp4"
+          ],
+          "query": [
+            {
+              "key": "targetColor",
+              "value": "eb8f16"
+            },
+            {
+              "key": "threshold",
+              "value": "40"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process Job ID Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/1380cff1-6065-4bca-8980-78b12d34a301/status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "1380cff1-6065-4bca-8980-78b12d34a301",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process Wrong Job ID Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/process/12345/status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "process",
+            "12345",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
