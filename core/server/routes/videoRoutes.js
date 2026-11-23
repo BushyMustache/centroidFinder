@@ -24,6 +24,7 @@ const PROCESSOR_JAR = path.resolve(
 
 const jobs = new Map();
 
+// GETs a list of all video files in sampleInput
 router.get('/videos', (req, res) => {
     fs.readdir(VIDEO_DIR, (err, files) => {
         if (err) {
@@ -41,13 +42,14 @@ router.get('/videos', (req, res) => {
     });
 });
 
-// This route is a catch-all for GET requests to /thumbnail without a filename.
+// Catch-all for GET requests to /thumbnail without a filename.
 router.get('/thumbnail', (req, res) => {
     return res.status(400).json({
         error: 'Missing video filename - thumbnail/:filename'
     });
 });
 
+// GETs a thumbnail from a video
 router.get('/thumbnail/:filename', (req, res) => {
     const filename = req.params.filename;
     const time = Number(req.query.time ?? 0);
@@ -134,13 +136,14 @@ router.get('/thumbnail/:filename', (req, res) => {
     });
 });
 
-// This route is a catch-all for POST requests to /process without a filename.
+// Catch-all for POST requests to /process without a filename.
 router.post('/process', (req, res) => {
     return res.status(400).json({
         error: 'Missing video filename - use /process/:filename'
     });
 });
 
+// POSTs a video processing job
 router.post('/process/:filename', (req, res) => {
     const { filename } = req.params;
     const { targetColor, threshold } = req.query;
