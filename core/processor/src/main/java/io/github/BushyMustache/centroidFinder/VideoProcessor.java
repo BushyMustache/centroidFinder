@@ -27,8 +27,9 @@ public class VideoProcessor {
      * 
      * @param videoPath the path to the video file
      * @return a list with each piece of data containing a timestamp and the centroid coordinates
+     * @throws Exception if any kind of error occurs
      */
-    public List<FrameAnalysis> processVideo(String videoPath) {
+    public List<FrameAnalysis> processVideo(String videoPath) throws Exception {
         List<FrameAnalysis> results = new ArrayList<>();
 
         long lastProcessedSecond = -1;

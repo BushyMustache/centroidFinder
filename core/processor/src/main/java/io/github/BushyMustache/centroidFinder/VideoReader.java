@@ -50,11 +50,11 @@ public class VideoReader implements AutoCloseable{
      * Reads the next frame of the video and returns the image and timestamp of that frame.
      * 
      * @return the timestamp and image frame in a record
-     * @throws FFmpegFrameGrabber.Exception if the method is trying read from a closed VideoReader
+     * @throws IllegalStateException if the method is trying read from a closed VideoReader
      */
     public Optional<VideoFrame> readNextFrame() throws FFmpegFrameGrabber.Exception {
         if (closed) {
-            throw new FFpegFrameGrabber.Exception("Cannot read from a closed VideoReader");
+            throw new IllegalStateException("Cannot read from a closed VideoReader");
         }
 
         Frame frame;

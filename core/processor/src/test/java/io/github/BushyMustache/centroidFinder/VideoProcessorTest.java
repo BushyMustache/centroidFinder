@@ -111,4 +111,104 @@ class VideoProcessorTest {
             previousTimestamp = result.timestamp();
         }
     }
+
+    @Test
+    void processVideoReturnsOneResultPerFrame() throws Exception {
+        AtomicInteger frameCounter = new AtomicInteger();
+
+        ImageGroupFinder finder = image -> {
+            frameCounter.incrementAndGet();
+            return List.of();
+        };
+
+        VideoProcessor processor = new VideoProcessor(finder);
+
+        List<FrameAnalysis> results =
+            processor.processVideo(getTestVideo().toString());
+
+        assertEquals(frameCounter.get(), results.size());
+    }
+
+    @Test
+    void processVideoCallsFinderForEveryFrame() throws Exception {
+        AtomicInteger finderCalls = new AtomicInteger();
+
+        ImageGroupFinder finder = image -> {
+            finderCalls.incrementAndGet();
+            return List.of();
+        };
+
+        VideoProcessor processor = new VideoProcessor(finder);
+
+        List<FrameAnalysis> results =
+            processor.processVideo(getTestVideo().toString());
+
+        assertFalse(results.isEmpty());
+        assertEquals(results.size(), finderCalls.get());
+    }
+
+    @Test
+    void processVideoUsesCentroidFromSingleGroup() throws Exception {
+        ImageGroupFinder finder = image ->
+            List.of(new Group(7, new Coordinate(25, 30)));
+
+        VideoProcessor processor = new VideoProcessor(finder);
+
+        List<FrameAnalysis> results =
+            processor.processVideo(getTestVideo().toString());
+
+        assertFalse(results.isEmpty());
+
+        FrameAnalysis first = results.get(0);
+
+        assertEquals(25, first.x());
+        assertEquals(30, first.y());
+    }
+
+    @Test
+    void processVideoPreservesFrameOrder() throws Exception {
+        ImageGroupFinder finder = image -> List.of();
+
+        VideoProcessor processor = new VideoProcessor(finder);
+
+        List<FrameAnalysis> results =
+            processor.processVideo(getTestVideo().toString());
+
+        assertTrue(results.size() >= 2);
+
+        for (int i = 1; i < results.size(); i++) {
+            assertTrue(
+                results.get(i).timestamp() >= results.get(i - 1).timestamp(),
+                "Results should preserve frame order"
+            );
+        }
+    }
+
+    @Test
+    void processVideoDoesNotReusePreviousCentroid() throws Exception {
+        AtomicInteger frameCounter = new AtomicInteger();
+
+        ImageGroupFinder finder = image -> {
+            int frame = frameCounter.getAndIncrement();
+
+            if (frame == 0) {
+                return List.of(new Group(10, new Coordinate(5, 6)));
+            }
+
+            return List.of(new Group(10, new Coordinate(20, 25)));
+        };
+
+        VideoProcessor processor = new VideoProcessor(finder);
+
+        List<FrameAnalysis> results =
+            processor.processVideo(getTestVideo().toString());
+
+        assertTrue(results.size() >= 2);
+
+        assertEquals(5, results.get(0).x());
+        assertEquals(6, results.get(0).y());
+
+        assertEquals(20, results.get(1).x());
+        assertEquals(25, results.get(1).y());
+    }
 }
