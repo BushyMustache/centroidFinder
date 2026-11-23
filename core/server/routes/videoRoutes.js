@@ -41,6 +41,13 @@ router.get('/videos', (req, res) => {
     });
 });
 
+// This route is a catch-all for GET requests to /thumbnail without a filename.
+router.get('/thumbnail', (req, res) => {
+    return res.status(400).json({
+        error: 'Missing video filename - thumbnail/:filename'
+    });
+});
+
 router.get('/thumbnail/:filename', (req, res) => {
     const filename = req.params.filename;
     const time = Number(req.query.time ?? 0);
@@ -124,6 +131,13 @@ router.get('/thumbnail/:filename', (req, res) => {
         }
 
         res.type('image/jpeg').send(imageBuffer);
+    });
+});
+
+// This route is a catch-all for POST requests to /process without a filename.
+router.post('/process', (req, res) => {
+    return res.status(400).json({
+        error: 'Missing video filename - use /process/:filename'
     });
 });
 
