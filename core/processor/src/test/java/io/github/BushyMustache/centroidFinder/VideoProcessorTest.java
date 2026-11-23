@@ -1,11 +1,12 @@
 package io.github.BushyMustache.centroidFinder;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class VideoProcessorTest {
@@ -20,11 +21,11 @@ class VideoProcessorTest {
 
         VideoProcessor processor = new VideoProcessor(finder);
 
-        List<VideoProcessor.FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
+        List<FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
 
         assertFalse(results.isEmpty());
 
-        for (VideoProcessor.FrameAnalysis result : results) {
+        for (FrameAnalysis result : results) {
             assertEquals(3, result.x());
             assertEquals(4, result.y());
         }
@@ -40,11 +41,11 @@ class VideoProcessorTest {
 
         VideoProcessor processor = new VideoProcessor(finder);
 
-        List<VideoProcessor.FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
+        List<FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
 
         assertFalse(results.isEmpty());
 
-        for (VideoProcessor.FrameAnalysis result : results) {
+        for (FrameAnalysis result : results) {
             assertEquals(8, result.x());
             assertEquals(9, result.y());
         }
@@ -56,11 +57,11 @@ class VideoProcessorTest {
 
         VideoProcessor processor = new VideoProcessor(finder);
 
-        List<VideoProcessor.FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
+        List<FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
 
         assertFalse(results.isEmpty());
 
-        for (VideoProcessor.FrameAnalysis result : results) {
+        for (FrameAnalysis result : results) {
             assertEquals(-1, result.x());
             assertEquals(-1, result.y());
         }
@@ -80,7 +81,7 @@ class VideoProcessorTest {
 
         VideoProcessor processor = new VideoProcessor(finder);
 
-        List<VideoProcessor.FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
+        List<FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
 
         assertTrue(results.size() >= 2, "The test video must contain at least two frames");
 
@@ -99,13 +100,13 @@ class VideoProcessorTest {
 
         VideoProcessor processor = new VideoProcessor(finder);
 
-        List<VideoProcessor.FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
+        List<FrameAnalysis> results = processor.processVideo(getTestVideo().toString());
 
         assertFalse(results.isEmpty());
 
         double previousTimestamp = -1;
 
-        for (VideoProcessor.FrameAnalysis result : results) {
+        for (FrameAnalysis result : results) {
             assertTrue(result.timestamp() >= previousTimestamp, "Timestamps should be non-decreasing");
             previousTimestamp = result.timestamp();
         }

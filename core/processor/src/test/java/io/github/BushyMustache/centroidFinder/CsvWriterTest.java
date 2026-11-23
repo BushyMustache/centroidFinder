@@ -1,12 +1,11 @@
 package io.github.BushyMustache.centroidFinder;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -31,7 +30,7 @@ class CsvWriterTest {
     void writesOneFrameAnalysis() throws IOException {
         Path output = tempDir.resolve("results.csv");
 
-        List<VideoProcessor.FrameAnalysis> results = List.of(new VideoProcessor.FrameAnalysis(0.033, 120, 85));
+        List<FrameAnalysis> results = List.of(new FrameAnalysis(0.033, 120, 85));
 
         CsvWriter writer = new CsvWriter();
         writer.write(output, results);
@@ -47,7 +46,7 @@ class CsvWriterTest {
     void writesMinusOneCoordinatesWhenNoCentroidIsFound() throws IOException {
         Path output = tempDir.resolve("results.csv");
 
-        List<VideoProcessor.FrameAnalysis> results = List.of(new VideoProcessor.FrameAnalysis(0.067, -1, -1));
+        List<FrameAnalysis> results = List.of(new FrameAnalysis(0.067, -1, -1));
 
         CsvWriter writer = new CsvWriter();
         writer.write(output, results);
@@ -61,10 +60,10 @@ class CsvWriterTest {
     void writesMultipleResultsInOrder() throws IOException {
         Path output = tempDir.resolve("results.csv");
 
-        List<VideoProcessor.FrameAnalysis> results = List.of(
-            new VideoProcessor.FrameAnalysis(0.0, 10, 20),
-            new VideoProcessor.FrameAnalysis(0.033, 30, 40),
-            new VideoProcessor.FrameAnalysis(0.067, -1, -1)
+        List<FrameAnalysis> results = List.of(
+            new FrameAnalysis(0.0, 10, 20),
+            new FrameAnalysis(0.033, 30, 40),
+            new FrameAnalysis(0.067, -1, -1)
         );
 
         CsvWriter writer = new CsvWriter();

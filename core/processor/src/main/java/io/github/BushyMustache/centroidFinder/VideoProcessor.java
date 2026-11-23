@@ -52,7 +52,4 @@ public class VideoProcessor {
 
         return results;
     }
-
-    public record FrameAnalysis(double timestamp, int x, int y) {
-    }
 }
