@@ -37,7 +37,7 @@ public class VideoMain {
 
             VideoProcessor processor = new VideoProcessor(groupFinder);
 
-            List<VideoProcessor.FrameAnalysis> results =
+            List<FrameAnalysis> results =
                 processor.processVideo(videoPath);
 
             CsvWriter csvWriter = new CsvWriter();
