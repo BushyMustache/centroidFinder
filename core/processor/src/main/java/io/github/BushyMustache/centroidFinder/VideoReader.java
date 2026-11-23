@@ -8,12 +8,25 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
 
+/**
+ * The class that goes through a video file and reads the thumbnail image and timestamp
+ * for each frame.
+ * 
+ * IS NOT RESPONSIBLE FOR ANALYZING THE VIDEO FOR CENTROID COORDINATES!
+ */
 public class VideoReader implements AutoCloseable{
     private final FFmpegFrameGrabber grabber;
     private final Java2DFrameConverter converter;
 
     private boolean closed = false;
 
+    /**
+     * The constructor for the VideoReader. Will utilize FFmpegFrameGrabber
+     * to read each frame Java2DFrameConverter to convert a frame to a BufferedImage.
+     * 
+     * @param inputPath the path to the video file to read
+     * @throws FFmpegFrameGrabber.Exception if the grabber is trying start when it hasn't been closed yet
+     */
     public VideoReader(String inputPath) throws FFmpegFrameGrabber.Exception {
         grabber = new FFmpegFrameGrabber(inputPath);
         converter = new Java2DFrameConverter();
@@ -33,9 +46,15 @@ public class VideoReader implements AutoCloseable{
         }
     }
 
+    /**
+     * Reads the next frame of the video and returns the image and timestamp of that frame.
+     * 
+     * @return the timestamp and image frame in a record
+     * @throws FFmpegFrameGrabber.Exception if the method is trying read from a closed VideoReader
+     */
     public Optional<VideoFrame> readNextFrame() throws FFmpegFrameGrabber.Exception {
         if (closed) {
-            throw new IllegalStateException("Cannot read from a closed VideoReader");
+            throw new FFpegFrameGrabber.Exception("Cannot read from a closed VideoReader");
         }
 
         Frame frame;
