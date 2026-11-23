@@ -3,6 +3,17 @@ package io.github.BushyMustache.centroidFinder;
 import java.util.List;
 import java.nio.file.Path;
 
+/**
+ * The main application for analyzing a video.
+ * After inputting a correct argument, the app will read the video,
+ * calculate the centroid coordinates and write them to a CSV file named
+ * output.csv that will either be updated or created in the sampleOutput folder.
+ * 
+ * Make sure to add these four things in order in the arguments.
+ * <videoPath> <outputDirectory> <targetColor> <threshold>
+ * 
+ * Example: "src/sampleInput/video.mp4 sampleOutput #FFFFFF 10"
+ */
 public class VideoMain {
     public static void main(String[] args) {
 

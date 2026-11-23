@@ -4,15 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The class that calculates the centroid coordinates of the frame for each second in
+ * the video. Utilizes methods in VideoReader (check out VideoReader documentation for more clarity)
+ */
 public class VideoProcessor {
 
     private final ImageGroupFinder groupFinder;
 
+    /**
+     * The constructor for the VideoProcessor
+     * @param groupFinder finds connected groups of pixels in a image frame
+     */
     public VideoProcessor(ImageGroupFinder groupFinder) {
         this.groupFinder = groupFinder;
     }
 
-    public List<FrameAnalysis> processVideo(String videoPath) throws Exception {
+    /**
+     * Processes the video and calculates the centroid coordinates and adds
+     * them to a list with a timestamp included. Returns the list after
+     * processing is finished.
+     * 
+     * @param videoPath the path to the video file
+     * @return a list with each piece of data containing a timestamp and the centroid coordinates
+     */
+    public List<FrameAnalysis> processVideo(String videoPath) {
         List<FrameAnalysis> results = new ArrayList<>();
 
         long lastProcessedSecond = -1;
