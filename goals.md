@@ -1,5 +1,5 @@
 Easy:
-- Implement a add button to add a video to the list.
+- Add a button that allows the user to upload videos to the backend.
 
 Goal:
 - Changing the colors in our video thumbnail previews.
